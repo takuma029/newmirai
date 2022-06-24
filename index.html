@@ -23,17 +23,23 @@
 </head>
 
 <body>
-    <div>
+    <form name="hoge"></form>
+        <div>
 
-        <div id="top_div">
-            <H2>リアルタイム認識α</H2>
-            <div id="loader_div">
-                <p id="loader_info">準備中...
-                </p>
-            </div>
+            <div id="top_div">
+                <H2>リアルタイム認識α</H2>
+                <div id="loader_div">
+                    <p id="loader_info">準備中...
+                    </p>
+                </div>
 
-            <div id="spinner_div" class="spinner-border" role="status">
-                <span class="sr-only"></span>
+                <div id="spinner_div" class="spinner-border" role="status">
+                    <span class="sr-only"></span>
+                </div>
+                <br></br>
+                <!-- <input id="input_btn" name="start" value="Start" type='button' disabled> -->
+
+                <!-- <input id="input_btn" name="start" value="Start" type='button' onclick="StartClick()"/> -->
             </div>
             <br></br>
             <input id="input_btn" name="start" value="Start" type='button' />
@@ -49,7 +55,7 @@
             <video id="video" width="640" height="480"></video>
             <canvas class="canvas" id="cv1" width="640" height="480"></canvas>
         </div>
-    </div>
+    </form>
 
 
     <script type="text/javascript">
@@ -262,6 +268,7 @@
 
         const sample3 = document.getElementById('stop_btn');
         sample3.onclick = () => {
+
             clickstart.disabled = false
             const tracks = document.getElementById('video').srcObject.getTracks();
             tracks.forEach(track => {
@@ -270,7 +277,9 @@
 
             document.getElementById('video').srcObject = null;
             img.removeEventListener("play", imageIsLoaded);
+            ctx.clearRect(0, 0, cv1.clientWidth, cv1.clientHeight);
         }
+
 
         // function StartClick() {
         //     var img = document.getElementById('video');
