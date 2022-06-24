@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        crossorigin="anonymous" playsinline>
+
+    <!-- jQuery & Bootstrap JS -->
+    <script src="//code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <!-- Load TensorFlow.js -->
+    <script src="//cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.7.2/dist/tf.min.js"></script>
+    <!-- Load the coco-ssd model. -->
+    <script src="//cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.0.2/dist/coco-ssd.js"></script>
+
+    <style>
+        body {
+            text-align: left;
+        }
+
+
+        .img {
+            position: relative;
+            z-index: 20;
+            max-width: 100%;
+            height: auto;
+
+        }
+
+        #main_container {
+            display: inline-block;
+            margin: 0 auto;
+            position: relative;
+            /*added*/
+            display: flex;
+            /*added*/
+            justify-content: center;
+            /*added*/
+            align-items: center;
+        }
+
+        #cv1 {
+            position: absolute;
+            z-index: 1;
+        }
+
+        #top_div {
+            padding: 1em;
+        }
+
+        #loader_div {
+            display: inline-block;
+        }
+
+        #spinner_div {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+
+        <div id="top_div">
+            <H2>リアルタイム認識d</H2>
+            <div id="loader_div">
+                <p id="loader_info">準備中...
+                </p>
+            </div>
+
+            <div id="spinner_div" class="spinner-border" role="status">
+                <span class="sr-only"></span>
+            </div>
+            <br></br>
+            <input id="input_btn" name="start" value="Start" type='button' onclick="StartClick()" />
+        </div>
+        <br></br>
+        <div class="container" id="main_container">
+            <!-- <video class="video" id="video" width="640" height="360"></video> -->
+            <video id="video" width="640" height="480"></video>
+            <canvas class="canvas" id="cv1" width="640" height="480"></canvas>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        var img;
+        var c = document.getElementById("cv1");
+        var ctx = c.getContext("2d");
+        var flag = 1;
+        var log = function () {
+            flag = 1;
+        }
+
+
+        var img = document.getElementById('video');
+        var isModelLoaded = false;
+        var globalModel = null;
+
+        //--------------音声ファイル、読込---------------------------------------        
+
+        const clear_ = new Audio();
+        clear_.src = 'clear.mp3';
+        const hi_ = new Audio();
+        hi_.src = 'hi.mp3';
+        const mizu_ = new Audio();
+        mizu_.src = 'mizu.mp3';
+        const niwatori_ = new Audio();
+        niwatori_.src = 'niwatori.mp3';
+        const car_ = new Audio();
+        car_.src = 'car.mp3';
+        const truck_ = new Audio();
+        truck_.src = 'truck.mp3';
+        const bicycle_ = new Audio();
+        bicycle_.src = 'bicycle.mp3';
+        // const  = new Audio();
+        // .src = '.mp3';
+
+
+
+        audiodic = {
+            person: hi_,
+            bench: clear_,
+            bottle: mizu_,
+            car: car_,
+            bird: niwatori_,
+            truck: truck_,
+            bicycle: bicycle_,
+            // tv:,
+            // keyboard:,
+            // cell phone:,
+            // cup:,
+            // laptop:,
+            // remote:,
+            // oven:,
+            // hot dog:,
+            // motorcycle:,
+            // book:,
+        };
+
+        //--------------音声ファイル、読込---------------------------------------  
+
+
+
+        //Load the model.
+        cocoSsd.load().then(model => {
+            isModelLoaded = true;
+            updateTitle();
+            // console.log(document.getElementById("video").readyState);
+            if (document.getElementById("video").src != "") {
+                startPredictions(model, img);
+                // console.log(7);
+            }
+        });
+
+        function startPredictions(model, img) {
+            model.detect(img).then(predictions => {
+
+                predictions.map((item, index) => {
+
+                    let borderColor = getColorByIndex(index);
+                    draw(item, borderColor);
+                    // console.log('stP');
+                });
+            });
+        }
+
+        function resizeCanvas(element) {
+            var w = element.offsetWidth;
+            var h = element.offsetHeight;
+            var cv = document.getElementById("cv1");
+            cv.width = w;
+            cv.height = h;
+            // console.log(h);
+            // console.log(cv1)
+            // console.log('rsC');
+        }
+        // -------------------------------画像認識、判別--------------------------------------------------------------------------
+        // -------------------------------画像認識、判別--------------------------------------------------------------------------
+
+        function drawVideo() {
+            var video = document.getElementById("video");
+            var cv = document.getElementById("cv1");
+            var context = cv.getContext("2d");
+
+
+            // context.drawImage(video, 0, 0, 640, 360);
+        }
+
+        function draw(item, boderColor) {
+            let scorePercentage = (parseFloat(item.score) * 100).toFixed(2);
+            let fontBase = 1000;
+            let fontSize = 12;
+            let textColor = "#FF0000";
+            let backgroundColor = "rgba(255, 255, 255, 0.7)"; //"#fff";
+
+            // console.log(item.bbox)
+            ctx.clearRect(0, 0, cv1.clientWidth, cv1.clientHeight);
+            ctx.beginPath();
+            ctx.rect(item.bbox[0], item.bbox[1], item.bbox[2], (fontSize + 5));
+            ctx.fillStyle = backgroundColor;
+            drawVideo();
+            ctx.fill();
+            ctx.font = `bold ${fontSize}px sans-serif`;
+            ctx.fillStyle = textColor;
+            // console.log(item.bbox)
+            ctx.fillText("  " + item.class + "  " + scorePercentage + "%", item.bbox[0], (item.bbox[1] + fontSize));
+
+
+            // --------------------------------音声出力、判定-----------------------------
+            // --------------------------------音声出力、判定-----------------------------
+
+            if (scorePercentage >= 91) {
+                if (flag == 0) {
+
+                } else if (flag == 1) {
+                    flag = 0;
+                    // audio = Object.keys(item.class);
+                    // console.log(mus)
+                    audiodic[item.class].play();
+                    setTimeout(log, 3000);
+                }
+            } else {
+                // console.log('error')
+            }
+
+            // --------------------------------音声出力、判定-----------------------------
+            // --------------------------------音声出力、判定-----------------------------
+
+            if (scorePercentage >= 91) {
+                console.log("  " + item.class + "  " + scorePercentage + "%", item.bbox[0], item.bbox[1]);
+            } else {
+
+            }
+            ctx.rect(item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3]);
+            // console.log(item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3]);
+            ctx.strokeStyle = boderColor;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            // console.log('drw');
+        }
+
+        // -------------------------------画像認識、判別--------------------------------------------------------------------------
+        // -------------------------------画像認識、判別--------------------------------------------------------------------------
+
+        function getColorByIndex(index) {
+            // console.log('gCBI');
+            var color = "#FF0000";
+            var colors = ["#FF0000", "#fff000", "#ff7100", "#8fff00", "#7100ff", "#f000ff", "#00fff0"];
+            try {
+                if (index < colors.length - 1) {
+                    color = colors[index];
+                } else {
+                    let random = Math.floor(Math.random() * ((colors.length - 1) + 1));
+                    color = colors[random];
+                }
+            } catch (e) {
+                console.log(e);
+            }
+            return color;
+        }
+
+        //Image loading 
+        function StartClick() {
+            var img = document.getElementById('video');
+            navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: false,
+            }).then(stream => {
+                img.srcObject = stream;
+                // console.log(img)
+            }).catch(e => {
+                console.log(e)
+            })
+            // console.log(1);
+            img.onload = imageIsLoaded;
+            img.addEventListener("canplay", imageIsLoaded);
+            img.play();
+
+
+        };
+
+
+
+
+        // <!-- -------------リアルタイム映像------------------ -->
+
+        // <!-- -------------リアルタイム映像------------------ -->
+
+        function imageIsLoaded() {
+            // console.log("height" + img.offsetHeight);
+            resizeCanvas(img);
+            // console.log(cv1);
+            cocoSsd.load().then(model => {
+                // console.log(3);
+                if (isModelLoaded) {
+                    // console.log('iIsL');
+                    setInterval(startPredictions, 100, model, img);
+                    // console.log(1000);
+
+                }
+            });
+        }
+
+        function updateTitle() {
+            var title = document.getElementById("loader_info");
+            title.textContent = "準備完了！ Startを押してリアルタイム認識をしよう！";
+            var element = document.getElementById("spinner_div");
+            element.classList.remove("spinner-border");
+            // console.log('updT');
+        }
+
+        function getFont(canvas, fontSize, fontBase) {
+            var ratio = fontSize / fontBase;
+            var size = canvas.width * ratio;
+            // console('getF');
+            return (size | 0) + 'px bold sans-serif';
+        }
+    </script>
+</body>
+
+</html>
