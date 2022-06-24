@@ -26,7 +26,7 @@
     <div>
 
         <div id="top_div">
-            <H2>リアルタイム認識d</H2>
+            <H2>リアルタイム認識α</H2>
             <div id="loader_div">
                 <p id="loader_info">準備中...
                 </p>
@@ -36,7 +36,12 @@
                 <span class="sr-only"></span>
             </div>
             <br></br>
-            <input id="input_btn" name="start" value="Start" type='button' onclick="StartClick()" />
+            <input id="input_btn" name="start" value="Start" type='button'/>
+            <input type="button" value="reload" onclick="window.location.reload();" />
+            <input id="stop_btn" name="start" value="Stop" type='button'/>
+            <!-- <input id="input_btn" name="start" value="Start" type='button' disabled> -->
+
+            <!-- <input id="input_btn" name="start" value="Start" type='button' onclick="StartClick()"/> -->
         </div>
         <br></br>
         <div class="container" id="main_container">
@@ -225,7 +230,18 @@
         }
 
         //Image loading 
-        function StartClick() {
+
+        // function DisableButton(b)
+        // {
+        //     b.disabled = true;
+        //     b.value = 'Submitting';
+        //     b.form.submit();
+        // }
+
+        const clickstart = document.getElementById('input_btn');
+        clickstart.onclick = () => {
+            clickstart.disabled = true;
+
             var img = document.getElementById('video');
             navigator.mediaDevices.getUserMedia({
                 video: true,
@@ -239,10 +255,49 @@
             // console.log(1);
             img.onload = imageIsLoaded;
             img.addEventListener("canplay", imageIsLoaded);
+            // img.removeEventListener("canplay",imageIsLoaded );
             img.play();
+        }
+
+            const sample3 = document.getElementById('stop_btn');
+        sample3.onclick = () => {
+            startPredictions(model,img).disabled = true;
+            // var img = document.getElementById('video');
+            // navigator.mediaDevices.getUserMedia({
+            //     video: true,
+            //     audio: false,
+            // }).then(stream => {
+            //     img.srcObject = stream;
+            //     // console.log(img)
+            // }).catch(e => {
+            //     console.log(e)
+            // })
+            // // console.log(1);
+            // img.onload = imageIsLoaded;
+            // img.addEventListener("canplay", imageIsLoaded);
+            // // img.removeEventListener("canplay",imageIsLoaded );
+            // img.play();
+            }
+
+        // function StartClick() {
+        //     var img = document.getElementById('video');
+        //     navigator.mediaDevices.getUserMedia({
+        //         video: true,
+        //         audio: false,
+        //     }).then(stream => {
+        //         img.srcObject = stream;
+        //         // console.log(img)
+        //     }).catch(e => {
+        //         console.log(e)
+        //     })
+        //     // console.log(1);
+        //     img.onload = imageIsLoaded;
+        //     img.addEventListener("canplay", imageIsLoaded);
+        //     // img.removeEventListener("canplay",imageIsLoaded );
+        //     img.play();
 
 
-        };
+        // };
 
 
 
@@ -280,6 +335,7 @@
             // console('getF');
             return (size | 0) + 'px bold sans-serif';
         }
+        
     </script>
 </body>
 
