@@ -23,33 +23,35 @@
 </head>
 
 <body>
-    <div>
+    <form name="hoge"></form>
+        <div>
 
-        <div id="top_div">
-            <H2>リアルタイム認識α</H2>
-            <div id="loader_div">
-                <p id="loader_info">準備中...
-                </p>
-            </div>
+            <div id="top_div">
+                <H2>リアルタイム認識α</H2>
+                <div id="loader_div">
+                    <p id="loader_info">準備中...
+                    </p>
+                </div>
 
-            <div id="spinner_div" class="spinner-border" role="status">
-                <span class="sr-only"></span>
+                <div id="spinner_div" class="spinner-border" role="status">
+                    <span class="sr-only"></span>
+                </div>
+                <br></br>
+                <input id="input_btn" name="start" value="Start" type='button'/>
+                <input type="button" value="reload" onclick="window.location.reload();" />
+                <input id="stop_btn" name="stop" value="Stop" type='button'/>
+                <!-- <input id="input_btn" name="start" value="Start" type='button' disabled> -->
+
+                <!-- <input id="input_btn" name="start" value="Start" type='button' onclick="StartClick()"/> -->
             </div>
             <br></br>
-            <input id="input_btn" name="start" value="Start" type='button'/>
-            <input type="button" value="reload" onclick="window.location.reload();" />
-            <input id="stop_btn" name="start" value="Stop" type='button'/>
-            <!-- <input id="input_btn" name="start" value="Start" type='button' disabled> -->
-
-            <!-- <input id="input_btn" name="start" value="Start" type='button' onclick="StartClick()"/> -->
+            <div class="container" id="main_container">
+                <!-- <video class="video" id="video" width="640" height="360"></video> -->
+                <video id="video" width="640" height="480"></video>
+             <canvas class="canvas" id="cv1" width="640" height="480"></canvas>
+            </div>
         </div>
-        <br></br>
-        <div class="container" id="main_container">
-            <!-- <video class="video" id="video" width="640" height="360"></video> -->
-            <video id="video" width="640" height="480"></video>
-            <canvas class="canvas" id="cv1" width="640" height="480"></canvas>
-        </div>
-    </div>
+    </form>
 
 
     <script type="text/javascript">
@@ -261,7 +263,10 @@
 
             const sample3 = document.getElementById('stop_btn');
         sample3.onclick = () => {
-            startPredictions(model,img).disabled = true;
+            clickstart.disabled = false;
+            // imageIsLoaded().disabled = true;
+            img.pause();
+            // img.play()
             // var img = document.getElementById('video');
             // navigator.mediaDevices.getUserMedia({
             //     video: true,
