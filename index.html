@@ -277,6 +277,7 @@
 
             document.getElementById('video').srcObject = null;
             img.removeEventListener("play", imageIsLoaded);
+            ctx.clearRect(0, 0, cv1.clientWidth, cv1.clientHeight);
         }
 
 
