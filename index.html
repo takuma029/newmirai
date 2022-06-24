@@ -18,49 +18,8 @@
     <!-- Load the coco-ssd model. -->
     <script src="//cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.0.2/dist/coco-ssd.js"></script>
 
-    <style>
-        body {
-            text-align: left;
-        }
+    <link href="index.css" rel="stylesheet" type="text/css">
 
-
-        .img {
-            position: relative;
-            z-index: 20;
-            max-width: 100%;
-            height: auto;
-
-        }
-
-        #main_container {
-            display: inline-block;
-            margin: 0 auto;
-            position: relative;
-            /*added*/
-            display: flex;
-            /*added*/
-            justify-content: center;
-            /*added*/
-            align-items: center;
-        }
-
-        #cv1 {
-            position: absolute;
-            z-index: 1;
-        }
-
-        #top_div {
-            padding: 1em;
-        }
-
-        #loader_div {
-            display: inline-block;
-        }
-
-        #spinner_div {
-            display: inline-block;
-        }
-    </style>
 </head>
 
 <body>
