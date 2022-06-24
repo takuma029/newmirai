@@ -36,9 +36,9 @@
                 <span class="sr-only"></span>
             </div>
             <br></br>
-            <input id="input_btn" name="start" value="Start" type='button'/>
+            <input id="input_btn" name="start" value="Start" type='button' />
             <input type="button" value="reload" onclick="window.location.reload();" />
-            <input id="stop_btn" name="start" value="Stop" type='button'/>
+            <input id="stop_btn" name="start" value="Stop" type='button' />
             <!-- <input id="input_btn" name="start" value="Start" type='button' disabled> -->
 
             <!-- <input id="input_btn" name="start" value="Start" type='button' onclick="StartClick()"/> -->
@@ -254,30 +254,23 @@
             })
             // console.log(1);
             img.onload = imageIsLoaded;
-            img.addEventListener("canplay", imageIsLoaded);
+            // img.addEventListener("play", imageIsLoaded);
             // img.removeEventListener("canplay",imageIsLoaded );
             img.play();
+            img.addEventListener("play", imageIsLoaded);
         }
 
-            const sample3 = document.getElementById('stop_btn');
+        const sample3 = document.getElementById('stop_btn');
         sample3.onclick = () => {
-            startPredictions(model,img).disabled = true;
-            // var img = document.getElementById('video');
-            // navigator.mediaDevices.getUserMedia({
-            //     video: true,
-            //     audio: false,
-            // }).then(stream => {
-            //     img.srcObject = stream;
-            //     // console.log(img)
-            // }).catch(e => {
-            //     console.log(e)
-            // })
-            // // console.log(1);
-            // img.onload = imageIsLoaded;
-            // img.addEventListener("canplay", imageIsLoaded);
-            // // img.removeEventListener("canplay",imageIsLoaded );
-            // img.play();
-            }
+            clickstart.disabled = false
+            const tracks = document.getElementById('video').srcObject.getTracks();
+            tracks.forEach(track => {
+                track.stop();
+            });
+
+            document.getElementById('video').srcObject = null;
+            img.removeEventListener("play", imageIsLoaded);
+        }
 
         // function StartClick() {
         //     var img = document.getElementById('video');
@@ -335,7 +328,7 @@
             // console('getF');
             return (size | 0) + 'px bold sans-serif';
         }
-        
+
     </script>
 </body>
 
