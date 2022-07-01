@@ -26,6 +26,8 @@ body {
 #cv1 {
     position: absolute;
     z-index: 1;
+    max-width: 100%;
+    height: auto;
 }
 
 #top_div {
