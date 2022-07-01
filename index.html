@@ -24,37 +24,30 @@
 
 <body>
     <form name="hoge"></form>
-        <div>
+    <div>
 
-            <div id="top_div">
-                <H2>リアルタイム認識α</H2>
-                <div id="loader_div">
-                    <p id="loader_info">準備中...
-                    </p>
-                </div>
+        <div id="top_div">
+            <H2>リアルタイム認識α</H2>
+            <div id="loader_div">
+                <p id="loader_info">準備中...
+                </p>
+            </div>
 
-                <div id="spinner_div" class="spinner-border" role="status">
-                    <span class="sr-only"></span>
-                </div>
-                <br></br>
-                <!-- <input id="input_btn" name="start" value="Start" type='button' disabled> -->
-
-                <!-- <input id="input_btn" name="start" value="Start" type='button' onclick="StartClick()"/> -->
+            <div id="spinner_div" class="spinner-border" role="status">
+                <span class="sr-only"></span>
             </div>
             <br></br>
-            <input id="input_btn" name="start" value="Start" type='button' />
-            <input type="button" value="reload" onclick="window.location.reload();" />
-            <input id="stop_btn" name="start" value="Stop" type='button' />
-            <!-- <input id="input_btn" name="start" value="Start" type='button' disabled> -->
-
-            <!-- <input id="input_btn" name="start" value="Start" type='button' onclick="StartClick()"/> -->
         </div>
         <br></br>
-        <div class="container" id="main_container">
-            <!-- <video class="video" id="video" width="640" height="360"></video> -->
-            <video id="video" width="640" height="480"></video>
-            <canvas class="canvas" id="cv1" width="640" height="480"></canvas>
-        </div>
+        <input id="input_btn" name="start" value="Start" type='button' />
+        <input type="button" value="reload" onclick="window.location.reload();" />
+        <input id="stop_btn" name="start" value="Stop" type='button' />
+    </div>
+    <br></br>
+    <div class="container" id="main_container">
+        <video id="video" width="640" height="480"></video>
+        <canvas class="canvas" id="cv1" width="640" height="480"></canvas>
+    </div>
     </form>
 
 
@@ -121,11 +114,6 @@
         cocoSsd.load().then(model => {
             isModelLoaded = true;
             updateTitle();
-            // console.log(document.getElementById("video").readyState);
-            if (document.getElementById("video").src != "") {
-                startPredictions(model, img);
-                // console.log(7);
-            }
         });
 
         function startPredictions(model, img) {
@@ -135,50 +123,28 @@
 
                     let borderColor = getColorByIndex(index);
                     draw(item, borderColor);
-                    // console.log('stP');
+
                 });
             });
         }
 
-        function resizeCanvas(element) {
-            var w = element.offsetWidth;
-            var h = element.offsetHeight;
-            var cv = document.getElementById("cv1");
-            cv.width = w;
-            cv.height = h;
-            // console.log(h);
-            // console.log(cv1)
-            // console.log('rsC');
-        }
-        // -------------------------------画像認識、判別--------------------------------------------------------------------------
-        // -------------------------------画像認識、判別--------------------------------------------------------------------------
-
-        function drawVideo() {
-            var video = document.getElementById("video");
-            var cv = document.getElementById("cv1");
-            var context = cv.getContext("2d");
-
-
-            // context.drawImage(video, 0, 0, 640, 360);
-        }
+        // -------------------------------画像認識・判別--------------------------------------------------------------------------
+        // -------------------------------画像認識・判別--------------------------------------------------------------------------
 
         function draw(item, boderColor) {
             let scorePercentage = (parseFloat(item.score) * 100).toFixed(2);
             let fontBase = 1000;
             let fontSize = 12;
             let textColor = "#FF0000";
-            let backgroundColor = "rgba(255, 255, 255, 0.7)"; //"#fff";
+            let backgroundColor = "rgba(255, 255, 255, 0.7)";
 
-            // console.log(item.bbox)
             ctx.clearRect(0, 0, cv1.clientWidth, cv1.clientHeight);
             ctx.beginPath();
             ctx.rect(item.bbox[0], item.bbox[1], item.bbox[2], (fontSize + 5));
             ctx.fillStyle = backgroundColor;
-            drawVideo();
             ctx.fill();
             ctx.font = `bold ${fontSize}px sans-serif`;
             ctx.fillStyle = textColor;
-            // console.log(item.bbox)
             ctx.fillText("  " + item.class + "  " + scorePercentage + "%", item.bbox[0], (item.bbox[1] + fontSize));
 
 
@@ -190,13 +156,10 @@
 
                 } else if (flag == 1) {
                     flag = 0;
-                    // audio = Object.keys(item.class);
-                    // console.log(mus)
                     audiodic[item.class].play();
                     setTimeout(log, 3000);
                 }
             } else {
-                // console.log('error')
             }
 
             // --------------------------------音声出力、判定-----------------------------
@@ -208,18 +171,12 @@
 
             }
             ctx.rect(item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3]);
-            // console.log(item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3]);
             ctx.strokeStyle = boderColor;
             ctx.lineWidth = 3;
             ctx.stroke();
-            // console.log('drw');
         }
 
-        // -------------------------------画像認識、判別--------------------------------------------------------------------------
-        // -------------------------------画像認識、判別--------------------------------------------------------------------------
-
         function getColorByIndex(index) {
-            // console.log('gCBI');
             var color = "#FF0000";
             var colors = ["#FF0000", "#fff000", "#ff7100", "#8fff00", "#7100ff", "#f000ff", "#00fff0"];
             try {
@@ -235,15 +192,11 @@
             return color;
         }
 
-        //Image loading 
+        // -------------------------------画像認識・判別--------------------------------------------------------------------------
+        // -------------------------------画像認識・判別--------------------------------------------------------------------------
 
-        // function DisableButton(b)
-        // {
-        //     b.disabled = true;
-        //     b.value = 'Submitting';
-        //     b.form.submit();
-        // }
-
+        //--------------------------------カメラ機能部分--------------------------------------------------
+        //--------------------------------カメラ機能部分--------------------------------------------------
         const clickstart = document.getElementById('input_btn');
         clickstart.onclick = () => {
             clickstart.disabled = true;
@@ -254,14 +207,10 @@
                 audio: false,
             }).then(stream => {
                 img.srcObject = stream;
-                // console.log(img)
             }).catch(e => {
                 console.log(e)
             })
-            // console.log(1);
             img.onload = imageIsLoaded;
-            // img.addEventListener("play", imageIsLoaded);
-            // img.removeEventListener("canplay",imageIsLoaded );
             img.play();
             img.addEventListener("play", imageIsLoaded);
         }
@@ -279,62 +228,35 @@
             img.removeEventListener("play", imageIsLoaded);
             ctx.clearRect(0, 0, cv1.clientWidth, cv1.clientHeight);
         }
+        //--------------------------------カメラ機能部分--------------------------------------------------
+        //--------------------------------カメラ機能部分--------------------------------------------------
 
+        // <!-- -------------リアルタイム映像認識------------------ -->
 
-        // function StartClick() {
-        //     var img = document.getElementById('video');
-        //     navigator.mediaDevices.getUserMedia({
-        //         video: true,
-        //         audio: false,
-        //     }).then(stream => {
-        //         img.srcObject = stream;
-        //         // console.log(img)
-        //     }).catch(e => {
-        //         console.log(e)
-        //     })
-        //     // console.log(1);
-        //     img.onload = imageIsLoaded;
-        //     img.addEventListener("canplay", imageIsLoaded);
-        //     // img.removeEventListener("canplay",imageIsLoaded );
-        //     img.play();
-
-
-        // };
-
-
-
-
-        // <!-- -------------リアルタイム映像------------------ -->
-
-        // <!-- -------------リアルタイム映像------------------ -->
+        // <!-- -------------リアルタイム映像認識------------------ -->
 
         function imageIsLoaded() {
-            // console.log("height" + img.offsetHeight);
-            resizeCanvas(img);
-            // console.log(cv1);
             cocoSsd.load().then(model => {
-                // console.log(3);
                 if (isModelLoaded) {
-                    // console.log('iIsL');
                     setInterval(startPredictions, 100, model, img);
-                    // console.log(1000);
-
                 }
             });
         }
+
+        // <!-- -------------リアルタイム映像認識------------------ -->
+
+        // <!-- -------------リアルタイム映像認識------------------ -->
 
         function updateTitle() {
             var title = document.getElementById("loader_info");
             title.textContent = "準備完了！ Startを押してリアルタイム認識をしよう！";
             var element = document.getElementById("spinner_div");
             element.classList.remove("spinner-border");
-            // console.log('updT');
         }
 
         function getFont(canvas, fontSize, fontBase) {
             var ratio = fontSize / fontBase;
             var size = canvas.width * ratio;
-            // console('getF');
             return (size | 0) + 'px bold sans-serif';
         }
 
