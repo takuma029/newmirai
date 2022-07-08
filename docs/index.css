@@ -3,13 +3,13 @@ body {
 }
 
 
-.img {
+/* .img {
     position: relative;
     z-index: 20;
     max-width: 100%;
     height: auto;
 
-}
+} */
 
 #main_container {
     display: inline-block;
@@ -25,10 +25,39 @@ body {
 
 #cv1 {
     position: absolute;
-    z-index: 1;
+    z-index: 20;
     max-width: 100%;
     height: auto;
 }
+
+/* #canvas-container {
+    position: absolute;
+    height: 0;
+    overflow: visible;
+    padding-top: 56.25%;
+}
+
+#cv1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.frame {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+}
+
+.frame-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+} */
 
 #top_div {
     padding: 1em;
