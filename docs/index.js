@@ -84,9 +84,9 @@ function draw(item, boderColor) {
     let textColor = "#FF0000";
     let backgroundColor = "rgba(255, 255, 255, 0.7)";
 
-
+    reSize()
     ctx.beginPath();
-    ctx.clearRect(0, 0, 640, 480);
+    ctx.clearRect(0, 0, c.width, c.height);
     ctx.rect(item.bbox[0], item.bbox[1], item.bbox[2], (fontSize + 5));
     ctx.fillStyle = backgroundColor;
     ctx.fill();
@@ -174,6 +174,7 @@ sample3.onclick = () => {
     document.getElementById('video').srcObject = null;
     img.removeEventListener("play", imageIsLoaded);
     ctx.clearRect(0, 0, cv1.clientWidth, cv1.clientHeight);
+    reSize();
 }
 //--------------------------------カメラ機能部分--------------------------------------------------
 //--------------------------------カメラ機能部分--------------------------------------------------
@@ -205,4 +206,15 @@ function getFont(canvas, fontSize, fontBase) {
     var ratio = fontSize / fontBase;
     var size = canvas.width * ratio;
     return (size | 0) + 'px bold sans-serif';
+}
+
+function reSize() {
+    var element = document.getElementById("video");
+    var width = element.videoWidth;
+    var height = element.videoHeight;
+    // console.log(width);
+    // console.log(height);
+
+    c.width = width;
+    c.height = height;
 }
