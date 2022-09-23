@@ -125,18 +125,18 @@ function draw(item, boderColor) {
 
 function getColorByIndex(index) {
     var color = "#FF0000";
-    var colors = ["#FF0000", "#fff000", "#ff7100", "#8fff00", "#7100ff", "#f000ff", "#00fff0"];
-    try {
-        if (index < colors.length - 1) {
-            color = colors[index];
-        } else {
-            let random = Math.floor(Math.random() * ((colors.length - 1) + 1));
-            color = colors[random];
-        }
-    } catch (e) {
-        console.log(e);
-    }
-    return color;
+    // var colors = ["#FF0000", "#fff000", "#ff7100", "#8fff00", "#7100ff", "#f000ff", "#00fff0"];
+    // try {
+    //     if (index < colors.length - 1) {
+    //         color = colors[index];
+    //     } else {
+    //         let random = Math.floor(Math.random() * ((colors.length - 1) + 1));
+    //         color = colors[random];
+    //     }
+    // } catch (e) {
+    //     console.log(e);
+    // }
+    // return color;
 }
 
 // -------------------------------画像認識・判別--------------------------------------------------------------------------
