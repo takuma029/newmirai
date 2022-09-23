@@ -5,6 +5,7 @@ var flag = 1;
 var log = function () {
     flag = 1;
 }
+var flamecolor = "#FF0000";
 
 
 var img = document.getElementById('video');
@@ -67,7 +68,7 @@ function startPredictions(model, img) {
 
         predictions.map((item, index) => {
 
-            let borderColor = getColorByIndex(index);
+            let borderColor = flamecolor;
             draw(item, borderColor);
 
         });
@@ -77,7 +78,7 @@ function startPredictions(model, img) {
 // -------------------------------画像認識・判別--------------------------------------------------------------------------
 // -------------------------------画像認識・判別--------------------------------------------------------------------------
 
-function draw(item, boderColor) {
+function draw(item, borderColor) {
     let scorePercentage = (parseFloat(item.score) * 100).toFixed(2);
     let fontBase = 1000;
     let fontSize = 12;
@@ -118,7 +119,7 @@ function draw(item, boderColor) {
 
     }
     ctx.rect(item.bbox[0], item.bbox[1], item.bbox[2], item.bbox[3]);
-    ctx.strokeStyle = boderColor;
+    ctx.strokeStyle = borderColor;
     ctx.lineWidth = 3;
     ctx.stroke();
 }
